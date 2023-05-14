@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:kurux_frontend_prototype/Response_Classes/api_links.dart';
+import 'package:http/http.dart' as http;
+
 class CompanyList {
   final List<CompanyDetails> companylist;
 
@@ -61,5 +66,25 @@ class CompanyDetails {
       Revenue: json['Revenue'],
       Ticker_Symbol: json['Ticker_Symbol'],
     );
+  }
+}
+
+Future<CompanyList> fetchCompanyList() async {
+  var headers = {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  };
+  final response =
+      await http.get(Uri.parse(GET_COMPANY_LIST), headers: headers);
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return CompanyList.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load company list');
   }
 }

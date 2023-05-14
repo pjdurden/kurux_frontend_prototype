@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kurux_frontend_prototype/Response_Classes/auth_apis.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,11 +12,19 @@ class _MyStatefulWidgetState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  //
+  // Note: This is a GlobalKey<FormState>,
+  // not a GlobalKey<MyCustomFormState>.
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.all(10),
+      body: Form(
+          key: _formKey,
+          // padding: const EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
               Container(
@@ -37,31 +46,37 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                   )),
               Container(
                 padding: const EdgeInsets.all(10),
-                child: TextField(
+                child: TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'User Name',
+                    labelText: 'User ID',
                   ),
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
-                  obscureText: true,
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
                   controller: passwordController,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
                   ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
@@ -70,23 +85,89 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
+                      if (_formKey.currentState!.validate()) {
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
+
+                        // bool authStatus = authExec(
+                        //     nameController.text, passwordController.text);
+
+                        Future<loginResponse> authStat = tryAuth(
+                            nameController.text, passwordController.text);
+
+                        authStat.then((data) {
+                          if (data.Auth) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Auth Success')),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Auth Failure')),
+                            );
+                          }
+                        }, onError: (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Server Error')),
+                          );
+                        });
+
+                        //creating a future builer here
+                        // FutureBuilder(
+                        //   future: authtry,
+                        //   builder: (context, snapshot) {
+                        //     if (snapshot.hasData) {
+                        //       if (snapshot.data!.Auth) {
+                        //         return ScaffoldMessenger.of(context).showSnackBar(
+                        //           const SnackBar(content: Text('Auth Success')),
+                        //         );
+                        //       } else {
+                        //         return ScaffoldMessenger.of(context).showSnackBar(
+                        //           SnackBar(
+                        //               content: Text(
+                        //                   'Auth Failure${snapshot.data!.AuthResponse}')),
+                        //         );
+                        //       }
+                        //     } else {
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         const SnackBar(content: Text('Server Error')),
+                        //       );
+                        //     }
+                        //   },
+                        // );
+
+                        print(nameController.text);
+                        print(passwordController.text);
+                      }
                     },
                   )),
+              TextButton(
+                onPressed: () {
+                  //forgot password screen
+                },
+                child: const Text(
+                  'Change Password',
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text('Does not have account?'),
                   TextButton(
                     child: const Text(
-                      'Sign in',
+                      'Sign Up',
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
                       //signup screen
                     },
                   )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                      'Forgot Password? Contact prajjwal@kurux.in or anubhav@kurux.in')
                 ],
               ),
             ],

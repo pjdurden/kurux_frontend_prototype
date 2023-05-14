@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:kurux_frontend_prototype/api_links.dart';
 
 import 'Response_Classes/get_company_list.dart';
-import 'package:http/http.dart' as http;
+import 'Response_Classes/api_links.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -22,26 +19,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-}
-
-Future<CompanyList> fetchCompanyList() async {
-  var headers = {
-    "Access-Control-Allow-Origin": "*",
-    'Content-Type': 'application/json',
-    'Accept': '*/*'
-  };
-  final response =
-      await http.get(Uri.parse(GET_COMPANY_LIST), headers: headers);
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return CompanyList.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load company list');
-  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
