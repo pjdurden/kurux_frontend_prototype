@@ -4,7 +4,7 @@ import 'Response_Classes/get_company_list.dart';
 import 'Response_Classes/api_links.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.user_id});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,6 +16,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final String user_id;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -23,14 +24,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<CompanyList> companylist;
+
   @override
   void initState() {
     super.initState();
     companylist = fetchCompanyList();
   }
-  // ···
 
-  int itemCount = 30;
+  // ···
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,22 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_outlined),
+            label: 'Companies',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.checklist_outlined),
+            label: ' My Portfolio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            label: 'Wallet',
+          ),
+        ],
       ),
       body: FutureBuilder<CompanyList>(
         future: companylist,
@@ -140,13 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
       //     ),
       // ],
 
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              child: Text('KuruX'),
+            DrawerHeader(
+              child: Text(widget.user_id),
             ),
             ListTile(
               leading: Icon(
@@ -159,11 +176,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(
-                Icons.train,
+                Icons.logout,
               ),
-              title: const Text('Page 2'),
+              title: const Text('Logout'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/login');
               },
             ),
           ],

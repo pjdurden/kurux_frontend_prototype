@@ -16,9 +16,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'KuruX',
       theme: ThemeData.dark(),
-      initialRoute: '/disclaimer',
+      initialRoute: '/login',
       routes: <String, WidgetBuilder>{
-        '/disclaimer': (context) => const LoginPage(),
+        '/login': (context) => const LoginPage(),
+        '/home': (context) =>
+            const MyHomePage(title: 'KuruX Funding Portal', user_id: 'KuruX')
       },
       // Use initial route for disclaimer
       // initialRoute: '/login',
@@ -28,7 +30,10 @@ class MyApp extends StatelessWidget {
       //         builder: (_) => const LoginPage(title: 'KuruX Funding Portal'))
       //   ];
       // },
-      home: const MyHomePage(title: 'KuruX Funding Portal'),
+      home: const MyHomePage(
+        title: 'KuruX Funding Portal',
+        user_id: 'KuruX',
+      ),
     );
   }
 }
