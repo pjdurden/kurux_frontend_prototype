@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kurux_frontend_prototype/bottomNavigator.dart';
+import 'package:kurux_frontend_prototype/login_page.dart';
 
+import 'Other_Pages/company_details.dart';
 import 'Response_Classes/get_company_list.dart';
 import 'Response_Classes/api_links.dart';
 
@@ -24,11 +27,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<CompanyList> companylist;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     companylist = fetchCompanyList();
+  }
+
+  void onTabTapped(int index) {
+    if (index >= 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(
+              title: 'KuruX Funding Portal', user_id: widget.user_id),
+        ),
+      );
+    }
   }
 
   // ···
@@ -48,66 +64,84 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_outlined),
-            label: 'Companies',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.checklist_outlined),
-            label: ' My Portfolio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            label: 'Wallet',
-          ),
-        ],
+        currentIndex: _selectedIndex,
+        items: bottomBar(),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        onTap: onTabTapped,
       ),
       body: FutureBuilder<CompanyList>(
         future: companylist,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView(
-              padding: const EdgeInsets.all(8),
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  child: Center(
-                      child: Text('Company - ' +
-                          snapshot.data!.companylist.first.Company_Name)),
-                ),
-                Container(
-                  height: 50,
-                  color: Color.fromARGB(255, 65, 63, 63),
-                  child: Center(
-                      child: Text(
-                          'Owner -' + snapshot.data!.companylist.first.Owner)),
-                ),
-                Container(
-                  height: 50,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  child: Center(
-                      child: Text('Ticker_Symbol -' +
-                          snapshot.data!.companylist.first.Ticker_Symbol)),
-                ),
-                Container(
-                  height: 50,
-                  color: Color.fromARGB(255, 65, 63, 63),
-                  child: Center(
-                      child: Text('Company Website -' +
-                          snapshot.data!.companylist.first.Company_Website)),
-                ),
-                Container(
-                  height: 50,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  child: Center(
-                      child: Text('Product Service Description -' +
-                          snapshot
-                              .data!.companylist.first.Product_Service_Desc)),
-                ),
-              ],
-            );
+            return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: snapshot.data!.companylist.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => company_details_page(
+                              company_id: snapshot.data!.companylist
+                                  .elementAt(index)
+                                  .Ticker_Symbol,
+                              user_id: widget.user_id),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.arrow_forward_outlined,
+                    ),
+                    subtitle: Text(snapshot.data!.companylist
+                        .elementAt(index)
+                        .Product_Service_Desc),
+                    trailing: Text('IPEO Price: ' +
+                        snapshot.data!.companylist.elementAt(index).IPEO_Price),
+                    title: Text(
+                        '${snapshot.data!.companylist.elementAt(index).Company_Name} (${snapshot.data!.companylist.elementAt(index).Ticker_Symbol})'),
+                  );
+                });
+
+            // padding: const EdgeInsets.all(8),
+            // children: <Widget>[
+            //   Container(
+            //     height: 50,
+            //     color: Color.fromARGB(255, 0, 0, 0),
+            //     child: Center(
+            //         child: Text('Company - ' +
+            //             snapshot.data!.companylist.first.Company_Name)),
+            //   ),
+            //   Container(
+            //     height: 50,
+            //     color: Color.fromARGB(255, 65, 63, 63),
+            //     child: Center(
+            //         child: Text(
+            //             'Owner -' + snapshot.data!.companylist.first.Owner)),
+            //   ),
+            //   Container(
+            //     height: 50,
+            //     color: Color.fromARGB(255, 0, 0, 0),
+            //     child: Center(
+            //         child: Text('Ticker_Symbol -' +
+            //             snapshot.data!.companylist.first.Ticker_Symbol)),
+            //   ),
+            //   Container(
+            //     height: 50,
+            //     color: Color.fromARGB(255, 65, 63, 63),
+            //     child: Center(
+            //         child: Text('Company Website -' +
+            //             snapshot.data!.companylist.first.Company_Website)),
+            //   ),
+            //   Container(
+            //     height: 50,
+            //     color: Color.fromARGB(255, 0, 0, 0),
+            //     child: Center(
+            //         child: Text('Product Service Description -' +
+            //             snapshot
+            //                 .data!.companylist.first.Product_Service_Desc)),
+
             // Text(snapshot.data!.companylist.first.Company_Name);
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');

@@ -88,3 +88,30 @@ Future<CompanyList> fetchCompanyList() async {
     throw Exception('Failed to load company list');
   }
 }
+
+Future<CompanyDetails> fetchCompanyDetails(String ticker_symbol) async {
+  var headers = {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  };
+
+  var request = http.Request('POST', Uri.parse(Single_Company_Details));
+
+  request.body = json.encode({'Ticker_Symbol': ticker_symbol});
+  request.headers.addAll(headers);
+
+  final response = await request.send();
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    // print(response.body);
+    return CompanyDetails.fromJson(
+        jsonDecode(await response.stream.bytesToString()));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load company list');
+  }
+}

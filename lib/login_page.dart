@@ -104,9 +104,9 @@ class _MyStatefulWidgetState extends State<LoginPage> {
 
                             authStat.then((data) {
                               if (data.Auth) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Auth Success')),
-                                );
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   const SnackBar(content: Text('Auth Success')),
+                                // );
 
                                 Navigator.push(
                                   context,
@@ -156,8 +156,8 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                             //   },
                             // );
 
-                            print(nameController.text);
-                            print(passwordController.text);
+                            // print(nameController.text);
+                            // print(passwordController.text);
                           }
                         },
                       )),

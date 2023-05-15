@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'KuruX',
       theme: ThemeData.dark(),
-      initialRoute: '/login',
+      // initialRoute: '/login',
       routes: <String, WidgetBuilder>{
         '/login': (context) => const LoginPage(),
         '/home': (context) =>
@@ -30,10 +30,7 @@ class MyApp extends StatelessWidget {
       //         builder: (_) => const LoginPage(title: 'KuruX Funding Portal'))
       //   ];
       // },
-      home: const MyHomePage(
-        title: 'KuruX Funding Portal',
-        user_id: 'KuruX',
-      ),
+      home: const LoginPage(),
     );
   }
 }
