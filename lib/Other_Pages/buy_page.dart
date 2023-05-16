@@ -32,7 +32,7 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
   @override
   void initState() {
     super.initState();
-    companyPrice = current_company_price(widget.company_id);
+    companyPrice = current_company_sell_price(widget.company_id);
   }
 
   @override
