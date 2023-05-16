@@ -6,14 +6,14 @@ import 'package:http/http.dart' as http;
 
 class buyEquityResponse {
   final bool bought;
-  final String boughtResponse;
+  final String boughtR;
 
   const buyEquityResponse({
     required this.bought,
-    required this.boughtResponse,
+    required this.boughtR,
   });
 
-  factory buyEquityResponse.fromJson( dynamic json) {
+  factory buyEquityResponse.fromJson(dynamic json) {
     bool boughtStatus = false;
     String boughtResponse;
     if (json.toString() == 'Stock Transfer Done') {
@@ -22,8 +22,7 @@ class buyEquityResponse {
     } else {
       boughtResponse = json['error'];
     }
-    return buyEquityResponse(
-        bought: boughtStatus, boughtResponse: boughtResponse);
+    return buyEquityResponse(bought: boughtStatus, boughtR: boughtResponse);
   }
 }
 
@@ -35,7 +34,7 @@ Future<buyEquityResponse> tryAuth(String Buyer_Id, String PIN,
     'Accept': '*/*'
   };
 
-  var request = http.Request('POST', Uri.parse(Auth_Link));
+  var request = http.Request('POST', Uri.parse(Buy_Equity));
 
   request.body = json.encode({
     'Buyer_Id': Buyer_Id,
