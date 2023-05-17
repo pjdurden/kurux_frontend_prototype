@@ -62,10 +62,10 @@ class SendAddMoney {
     required this.sent_added,
   });
 
-  factory SendAddMoney.fromJson(dynamic json) {
+  factory SendAddMoney.fromJson(Map<String, dynamic> json) {
     bool sent_added_status = false;
     String sent_added_Response_status = "";
-    if (json.toString() == 'msg') {
+    if (json.containsKey('msg')) {
       sent_added_status = true;
       sent_added_Response_status = 'Transaction done';
     } else {

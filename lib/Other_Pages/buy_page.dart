@@ -248,8 +248,8 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
                           onPressed: () {
                             if (_secondFormKey.currentState!.validate()) {
                               // userBalance = fetch_Balance();
-                              Future<buyEquityResponse> buyResponse =
-                                  tryBuyEquity(
+                              Future<buySellEquityResponse> buyResponse =
+                                  tryBuy(
                                       widget.user_id,
                                       PIN.text,
                                       widget.company_id,

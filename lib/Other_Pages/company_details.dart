@@ -198,35 +198,6 @@ class _MyStatefulWidgetState extends State<company_details_page> {
           return const CircularProgressIndicator();
         },
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              child: Text(widget.user_id),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.home,
-              ),
-              title: const Text('Page 1'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.logout,
-              ),
-              title: const Text('Logout'),
-              onTap: () {
-                Navigator.pushNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
