@@ -16,7 +16,7 @@ String Single_Company_Details = Base_URI + '/crud/get_company_details';
 
 String Avg_Buy_Price = Base_URI + '/price/avg_buy_price';
 
-String Avg_Sell_Price = Base_URI + '/price/avg_Sell_price';
+String Avg_Sell_Price = Base_URI + '/price/avg_sell_price';
 
 String Balance_Check = Base_URI + '/wallet/check_balance';
 
@@ -24,4 +24,6 @@ String Balance_Add = Base_URI + ' /wallet/add_money';
 
 String Balance_Send = Base_URI + '/wallet/send_money';
 
-String Buy_Equity = Base_URI + '/equity/buy_equity method';
+String Buy_Equity = Base_URI + '/equity/buy_equity';
+
+String Sell_Equity = Base_URI + '/equity/sell_equity';
