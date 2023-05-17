@@ -70,7 +70,7 @@ Future<buySellEquityResponse> trySell(String Buyer_Id, String PIN,
   var request = http.Request('POST', Uri.parse(Sell_Equity));
 
   request.body = json.encode({
-    'Buyer_Id': Buyer_Id,
+    'Seller_Id': Buyer_Id,
     'PIN': PIN,
     'Ticker_Symbol': Ticker_Symbol,
     'Units': Units,

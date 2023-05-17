@@ -4,6 +4,7 @@ import 'package:kurux_frontend_prototype/bottomNavigator.dart';
 import 'package:kurux_frontend_prototype/login_page.dart';
 
 import 'Other_Pages/company_details.dart';
+import 'Portfolio_page.dart';
 import 'Response_Classes/get_company_list.dart';
 import 'Response_Classes/api_links.dart';
 
@@ -37,12 +38,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onTabTapped(int index) {
-    if (index >= 0) {
+    if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyHomePage(
-              title: 'KuruX Funding Portal', user_id: widget.user_id),
+          builder: (context) => Portfolio_Page(user_id: widget.user_id),
         ),
       );
     }

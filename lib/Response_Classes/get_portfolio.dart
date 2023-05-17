@@ -72,8 +72,8 @@ class PortfolioDetails {
   factory PortfolioDetails.fromJson(Map<String, dynamic> json) {
     return PortfolioDetails(
       Company_Name: json['Company_Name'],
-      Units: json['Units'],
-      Total_Spent: json['Total_Spent'],
+      Units: json['Units'].toString(),
+      Total_Spent: json['Total_Spent'].toString(),
       Ticker_Symbol: json['Ticker_Symbol'],
     );
   }

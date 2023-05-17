@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kurux_frontend_prototype/Other_Pages/wallet_page.dart';
 import 'package:kurux_frontend_prototype/bottomNavigator.dart';
+import 'package:kurux_frontend_prototype/home_page.dart';
 import 'package:kurux_frontend_prototype/login_page.dart';
 
 import 'Other_Pages/company_details.dart';
+import 'Other_Pages/sell_page.dart';
 import 'Response_Classes/get_company_list.dart';
 import 'Response_Classes/api_links.dart';
+import 'Response_Classes/get_portfolio.dart';
 
 class Portfolio_Page extends StatefulWidget {
   const Portfolio_Page({super.key, required this.user_id});
@@ -26,21 +29,21 @@ class Portfolio_Page extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Portfolio_Page> {
-  late Future<CompanyList> companylist;
+  late Future<PortfolioList> companylist;
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    companylist = fetchCompanyList();
+    companylist = fetchPortfolioList(widget.user_id);
   }
 
   void onTabTapped(int index) {
-    if (index >= 0) {
+    if (index == 0) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Portfolio_Page(
+          builder: (context) => MyHomePage(
               title: 'KuruX Funding Portal', user_id: widget.user_id),
         ),
       );
@@ -61,7 +64,7 @@ class _MyHomePageState extends State<Portfolio_Page> {
       appBar: AppBar(
         // Here we take the value from the Portfolio_Page object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.user_id + ' Portfolio'),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -70,7 +73,7 @@ class _MyHomePageState extends State<Portfolio_Page> {
         unselectedItemColor: Colors.white,
         onTap: onTabTapped,
       ),
-      body: FutureBuilder<CompanyList>(
+      body: FutureBuilder<PortfolioList>(
         future: companylist,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -83,10 +86,9 @@ class _MyHomePageState extends State<Portfolio_Page> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => company_details_page(
-                              company_id: snapshot.data!.companylist
-                                  .elementAt(index)
-                                  .Ticker_Symbol,
+                          builder: (context) => sell_order_page(
+                              company_id:
+                                  snapshot.data!.companylist.elementAt(index),
                               user_id: widget.user_id),
                         ),
                       );
@@ -94,11 +96,9 @@ class _MyHomePageState extends State<Portfolio_Page> {
                     leading: Icon(
                       Icons.arrow_forward_outlined,
                     ),
-                    subtitle: Text(snapshot.data!.companylist
-                        .elementAt(index)
-                        .Product_Service_Desc),
-                    trailing: Text('IPEO Price: ' +
-                        snapshot.data!.companylist.elementAt(index).IPEO_Price),
+                    subtitle: Text('Units : ' +
+                        snapshot.data!.companylist.elementAt(index).Units),
+                    trailing: Text('Click here to Sell'),
                     title: Text(
                         '${snapshot.data!.companylist.elementAt(index).Company_Name} (${snapshot.data!.companylist.elementAt(index).Ticker_Symbol})'),
                   );

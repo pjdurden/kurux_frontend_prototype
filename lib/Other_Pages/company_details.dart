@@ -45,7 +45,8 @@ class _MyStatefulWidgetState extends State<company_details_page> {
         future: companyDetails,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
+            return SingleChildScrollView(
+                child: Column(
               // padding: const EdgeInsets.all(8),
               children: <Widget>[
                 ListView(
@@ -58,125 +59,118 @@ class _MyStatefulWidgetState extends State<company_details_page> {
                                 ' (' +
                                 snapshot.data!.Ticker_Symbol +
                                 ')',
-                            textScaleFactor: 3))
+                            textScaleFactor: 2))
                   ],
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(child: new Text(snapshot.data!.Product_Service_Desc))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Product And Service Description'),
+                  subtitle: Text('As per company details'),
+                  title: Text(snapshot.data!.Product_Service_Desc),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text('Company Website - ' +
-                            snapshot.data!.Company_Website))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Company Website'),
+                  subtitle: Text('Online Presence'),
+                  title: Text(snapshot.data!.Company_Website),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'IPEO Price - ' + snapshot.data!.IPEO_Price))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('IPEO Price'),
+                  subtitle:
+                      Text('Initial Private Equity Offering price on KuruX'),
+                  title: Text(snapshot.data!.IPEO_Price),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'Company Size - ' + snapshot.data!.Company_Size))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Company Size'),
+                  subtitle: Text('Including Employees and Contractors'),
+                  title: Text(snapshot.data!.Company_Size),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text('Revenue - ' + snapshot.data!.Revenue))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Revenue'),
+                  subtitle: Text('Yearly'),
+                  title: Text(snapshot.data!.Revenue),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'Is_Profitable - ' + snapshot.data!.Is_Profitable))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Is It Profitable'),
+                  subtitle: Text('For the current year'),
+                  title: Text(snapshot.data!.Revenue),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text('Funds Raised Till Now - ' +
-                            snapshot.data!.Earlier_Fund_Raised))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Funds Raised'),
+                  subtitle: Text('Using Equity'),
+                  title: Text(snapshot.data!.Earlier_Fund_Raised),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text('Existing Liabilities - ' +
-                            snapshot.data!.Existing_Liabilities))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Existing Liabilities'),
+                  subtitle: Text('Majorly Debt'),
+                  title: Text(snapshot.data!.Existing_Liabilities),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'Parent Company/Owner - ' + snapshot.data!.Owner))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Parent Company/Holder'),
+                  subtitle: Text('Also Onboarded on KuruX'),
+                  title: Text(snapshot.data!.Owner),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'Linkedin - ' + snapshot.data!.Company_Linkedin))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('LinkedIn'),
+                  subtitle: Text('Online Presence'),
+                  title: Text(snapshot.data!.Owner),
                 ),
 
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    Center(
-                        child: new Text(
-                            'Pitch Link - ' + snapshot.data!.Pitch_Link))
-                  ],
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_forward_outlined,
+                  ),
+                  trailing: Text('Pitch Link'),
+                  subtitle: Text('Link to Product/Company Pitch'),
+                  title: Text(snapshot.data!.Pitch_Link),
                 ),
 
                 //adding button
 
                 Container(
                     height: 80,
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
                         child: Text('Buy ' + snapshot.data!.Ticker_Symbol,
-                            textScaleFactor: 2),
+                            textScaleFactor: 1),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -189,7 +183,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
                           );
                         })),
               ],
-            );
+            ));
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
