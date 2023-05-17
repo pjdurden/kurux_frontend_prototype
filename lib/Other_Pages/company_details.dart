@@ -4,6 +4,7 @@ import 'package:kurux_frontend_prototype/Response_Classes/get_company_list.dart'
 import 'package:kurux_frontend_prototype/home_page.dart';
 
 import '../bottomNavigator.dart';
+import 'buy_page.dart';
 
 class company_details_page extends StatefulWidget {
   const company_details_page(
@@ -32,18 +33,6 @@ class _MyStatefulWidgetState extends State<company_details_page> {
     companyDetails = fetchCompanyDetails(widget.company_id);
   }
 
-  void onTabTapped(int index) {
-    if (index >= 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(
-              title: 'KuruX Funding Portal', user_id: widget.user_id),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +40,6 @@ class _MyStatefulWidgetState extends State<company_details_page> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.company_id),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        items: bottomBar(),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        onTap: onTabTapped,
       ),
       body: FutureBuilder<CompanyDetails>(
         future: companyDetails,
@@ -199,9 +181,10 @@ class _MyStatefulWidgetState extends State<company_details_page> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyHomePage(
-                                  title: 'KuruX Funding Portal',
-                                  user_id: widget.user_id),
+                              builder: (context) => buy_order_page(
+                                company_id: widget.company_id,
+                                user_id: widget.user_id,
+                              ),
                             ),
                           );
                         })),
