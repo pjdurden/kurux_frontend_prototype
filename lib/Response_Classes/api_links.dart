@@ -13,3 +13,15 @@ String GET_COMPANY_LIST = Base_URI + '/crud/get_company_list';
 String Auth_Link = Base_URI + '/auth/validate';
 
 String Single_Company_Details = Base_URI + '/crud/get_company_details';
+
+String Avg_Buy_Price = Base_URI + '/price/avg_buy_price';
+
+String Avg_Sell_Price = Base_URI + '/price/avg_Sell_price';
+
+String Balance_Check = Base_URI + '/wallet/check_balance';
+
+String Balance_Add = Base_URI + ' /wallet/add_money';
+
+String Balance_Send = Base_URI + '/wallet/send_money';
+
+String Buy_Equity = Base_URI + '/equity/buy_equity method';
