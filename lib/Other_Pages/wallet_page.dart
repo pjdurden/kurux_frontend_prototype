@@ -8,18 +8,16 @@ import '../Response_Classes/avgbuysellprice.dart';
 import '../Response_Classes/wallet.dart';
 import '../bottomNavigator.dart';
 
-class buy_order_page extends StatefulWidget {
-  const buy_order_page(
-      {super.key, required this.company_id, required this.user_id});
+class wallet_page extends StatefulWidget {
+  const wallet_page({super.key, required this.user_id});
 
-  final String company_id;
   final String user_id;
 
   @override
-  State<buy_order_page> createState() => _MyStatefulWidgetState();
+  State<wallet_page> createState() => _MyStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<buy_order_page> {
+class _MyStatefulWidgetState extends State<wallet_page> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -27,55 +25,39 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   final _secondFormKey = GlobalKey<FormState>();
+  final _thirdFormKey = GlobalKey<FormState>();
   // late Future<User_Balance> userBalance;
-  late Future<AvgBuySellPrc> companyPrice;
 
   int _selectedIndex = 0;
   TextEditingController pinController = TextEditingController();
-  TextEditingController Units = TextEditingController();
-  TextEditingController Price_Per_Unit = TextEditingController();
+  TextEditingController Reciever_user_id = TextEditingController();
+  TextEditingController Amount = TextEditingController();
   TextEditingController PIN = TextEditingController();
+
+  TextEditingController Amount2 = TextEditingController();
+  TextEditingController PIN2 = TextEditingController();
+  TextEditingController Master_Pass = TextEditingController();
 
   int units = 0;
   int price_per_unit = 0;
   int amount = 0;
 
-  void _changesUnits() {
-    if (Units.text.isNotEmpty) {
-      units = int.parse(Units.text);
-    } else
-      units = 0;
-    setState(() {
-      amount = units * price_per_unit;
-    });
-  }
-
-  void _changesPrice() {
-    if (Price_Per_Unit.text.isNotEmpty) {
-      price_per_unit = int.parse(Price_Per_Unit.text);
-    } else
-      price_per_unit = 0;
-    setState(() {
-      amount = units * price_per_unit;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    Units.addListener(_changesUnits);
-    Price_Per_Unit.addListener(_changesPrice);
-    companyPrice = tryAvgSellPRC(widget.company_id);
   }
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the _printLatestValue listener.
-    Units.dispose();
-    Price_Per_Unit.dispose();
+    Reciever_user_id.dispose();
+    Amount.dispose();
     pinController.dispose();
     PIN.dispose();
+    Amount2.dispose();
+    PIN2.dispose();
+    Master_Pass.dispose();
     super.dispose();
   }
 
@@ -85,10 +67,17 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Text('Buy ' + widget.company_id),
+          title: const Text('Wallet'),
         ),
         body: SingleChildScrollView(
             child: Column(children: <Widget>[
+          ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(10),
+            children: [
+              Center(child: new Text('Check Balance', textScaleFactor: 2))
+            ],
+          ),
           Form(
               key: _formKey,
               child: Column(
@@ -153,26 +142,13 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
                           })),
                 ],
               )),
-          FutureBuilder<AvgBuySellPrc>(
-              future: companyPrice,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(10),
-                    children: [
-                      Center(
-                          child: new Text('Average Sell Price for ' +
-                              widget.company_id +
-                              ': ' +
-                              snapshot.data!.price.toString()))
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return Center(child: const CircularProgressIndicator());
-              }),
+          ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(10),
+            children: [
+              Center(child: new Text('Send Money', textScaleFactor: 2))
+            ],
+          ),
           Form(
               key: _secondFormKey,
               child: Column(
@@ -180,12 +156,11 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
-                      controller: Units,
-                      keyboardType: TextInputType.number,
+                      controller: Reciever_user_id,
                       obscureText: false,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Units to buy',
+                        labelText: 'Reciever User Id',
                       ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
@@ -199,12 +174,12 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
-                      controller: Price_Per_Unit,
+                      controller: Amount,
                       keyboardType: TextInputType.number,
                       obscureText: false,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Give Buying Price per Unit',
+                        labelText: 'Amount',
                       ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
@@ -234,39 +209,132 @@ class _MyStatefulWidgetState extends State<buy_order_page> {
                       },
                     ),
                   ),
-                  ListView(
-                    shrinkWrap: true,
+                  Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                          child: Text('Send Money'),
+                          onPressed: () {
+                            if (_secondFormKey.currentState!.validate()) {
+                              // userBalance = fetch_Balance();
+                              Future<SendAddMoney> buyResponse = trySend(
+                                widget.user_id,
+                                Reciever_user_id.text,
+                                PIN.text,
+                                Amount.text,
+                              );
+
+                              buyResponse.then((data) {
+                                if (data.sent_added) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Transaction Success')));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('error: ' +
+                                              data.sent_added_Response)));
+                                }
+                              }, onError: (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Server Error')),
+                                );
+                              });
+                            }
+                          })),
+                ],
+              )),
+          ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(10),
+            children: [
+              Center(child: new Text('Add Money', textScaleFactor: 2))
+            ],
+          ),
+          Form(
+              key: _thirdFormKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
                     padding: const EdgeInsets.all(10),
-                    children: [
-                      Center(child: new Text('Amount: ' + (amount).toString()))
-                    ],
+                    child: TextFormField(
+                      controller: Amount2,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Amount',
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter value';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      controller: PIN2,
+                      keyboardType: TextInputType.number,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'PIN',
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter value';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      controller: Master_Pass,
+                      keyboardType: TextInputType.number,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Master Pass',
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter value';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   Container(
                       padding: const EdgeInsets.all(10.0),
                       child: ElevatedButton(
-                          child: Text('Buy'),
+                          child: Text('Add Money'),
                           onPressed: () {
-                            if (_secondFormKey.currentState!.validate()) {
+                            if (_thirdFormKey.currentState!.validate()) {
                               // userBalance = fetch_Balance();
-                              Future<buyEquityResponse> buyResponse =
-                                  tryBuyEquity(
-                                      widget.user_id,
-                                      PIN.text,
-                                      widget.company_id,
-                                      Units.text,
-                                      Price_Per_Unit.text);
+                              Future<SendAddMoney> buyResponse = tryAdd(
+                                  widget.user_id,
+                                  PIN2.text,
+                                  Amount2.text,
+                                  Master_Pass.text);
 
                               buyResponse.then((data) {
-                                if (data.bought) {
+                                if (data.sent_added) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content:
-                                              Text('Stock Transfer Done')));
+                                              Text('Transaction Success')));
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content:
-                                              Text('error: ' + data.boughtR)));
+                                          content: Text('error: ' +
+                                              data.sent_added_Response)));
                                 }
                               }, onError: (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(

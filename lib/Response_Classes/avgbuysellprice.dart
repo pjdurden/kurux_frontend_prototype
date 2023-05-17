@@ -16,8 +16,8 @@ class AvgBuySellPrc {
   factory AvgBuySellPrc.fromJson(dynamic json) {
     int priceStatus = -1;
     String priceResponseStatus = "";
-    if (json is int) {
-      priceStatus = json;
+    if (json is int || json is double) {
+      priceStatus = json.ceil();
       priceResponseStatus = 'balance retrieval successful';
     } else {
       priceResponseStatus = json['error'];

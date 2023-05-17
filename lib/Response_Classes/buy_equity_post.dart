@@ -26,7 +26,7 @@ class buyEquityResponse {
   }
 }
 
-Future<buyEquityResponse> tryAuth(String Buyer_Id, String PIN,
+Future<buyEquityResponse> tryBuyEquity(String Buyer_Id, String PIN,
     String Ticker_Symbol, String Units, String Price_Per_Unit) async {
   var headers = {
     "Access-Control-Allow-Origin": "*",

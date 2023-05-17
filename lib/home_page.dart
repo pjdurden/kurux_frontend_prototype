@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kurux_frontend_prototype/Other_Pages/wallet_page.dart';
 import 'package:kurux_frontend_prototype/bottomNavigator.dart';
 import 'package:kurux_frontend_prototype/login_page.dart';
 
@@ -203,9 +204,16 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(
                 Icons.home,
               ),
-              title: const Text('Page 1'),
+              title: const Text('Wallet'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => wallet_page(
+                      user_id: widget.user_id,
+                    ),
+                  ),
+                );
               },
             ),
             ListTile(
