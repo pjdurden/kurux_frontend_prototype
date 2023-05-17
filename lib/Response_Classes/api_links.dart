@@ -27,3 +27,5 @@ String Balance_Send = Base_URI + '/wallet/send_money';
 String Buy_Equity = Base_URI + '/equity/buy_equity';
 
 String Sell_Equity = Base_URI + '/equity/sell_equity';
+
+String User_Portfolio = Base_URI + '/user/portfolio';
