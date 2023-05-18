@@ -72,9 +72,8 @@ class _MyStatefulWidgetState extends State<sell_order_page> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListTile(
-                    leading: Icon(
-                      Icons.arrow_forward_outlined,
-                    ),
+                    leading: CircleAvatar(
+                        child: Text(widget.company_id.Ticker_Symbol)),
                     subtitle: Text('Units : ' + widget.company_id.Units),
                     trailing: Text('Average Sell Price : ' +
                         snapshot.data!.price.toString()),

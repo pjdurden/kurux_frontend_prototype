@@ -65,7 +65,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.details_outlined,
                   ),
                   trailing: Text('Product And Service Description'),
                   subtitle: Text('As per company details'),
@@ -74,7 +74,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.web,
                   ),
                   trailing: Text('Company Website'),
                   subtitle: Text('Online Presence'),
@@ -83,7 +83,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.monetization_on_outlined,
                   ),
                   trailing: Text('IPEO Price'),
                   subtitle:
@@ -93,7 +93,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.people_alt_outlined,
                   ),
                   trailing: Text('Company Size'),
                   subtitle: Text('Including Employees and Contractors'),
@@ -102,7 +102,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.monetization_on_outlined,
                   ),
                   trailing: Text('Revenue'),
                   subtitle: Text('Yearly'),
@@ -111,7 +111,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.money_sharp,
                   ),
                   trailing: Text('Is It Profitable'),
                   subtitle: Text('For the current year'),
@@ -120,7 +120,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.monetization_on_outlined,
                   ),
                   trailing: Text('Funds Raised'),
                   subtitle: Text('Using Equity'),
@@ -129,7 +129,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.branding_watermark_rounded,
                   ),
                   trailing: Text('Existing Liabilities'),
                   subtitle: Text('Majorly Debt'),
@@ -138,7 +138,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.house_outlined,
                   ),
                   trailing: Text('Parent Company/Holder'),
                   subtitle: Text('Also Onboarded on KuruX'),
@@ -147,7 +147,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.web,
                   ),
                   trailing: Text('LinkedIn'),
                   subtitle: Text('Online Presence'),
@@ -156,7 +156,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
 
                 ListTile(
                   leading: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.web,
                   ),
                   trailing: Text('Pitch Link'),
                   subtitle: Text('Link to Product/Company Pitch'),
@@ -189,7 +189,7 @@ class _MyStatefulWidgetState extends State<company_details_page> {
           }
 
           // By default, show a loading spinner.
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kurux_frontend_prototype/Other_Pages/change_pass_pin.dart';
 import 'package:kurux_frontend_prototype/Response_Classes/auth_apis.dart';
 import 'package:kurux_frontend_prototype/home_page.dart';
 
@@ -170,29 +171,56 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                           }
                         },
                       )),
-                  TextButton(
-                    onPressed: () {
-                      //forgot password screen
-                    },
-                    child: const Text(
-                      'Change Password',
-                    ),
-                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text('Does not have account?'),
-                      TextButton(
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(fontSize: 20),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            //forgot password screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    change_pass_pin(Type: 'Password'),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Change Password',
+                          ),
                         ),
-                        onPressed: () {
-                          //signup screen
-                        },
-                      )
-                    ],
-                  ),
+                        TextButton(
+                          onPressed: () {
+                            //forgot password screen
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    change_pass_pin(Type: 'PIN'),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Change PIN',
+                          ),
+                        ),
+                      ]),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     const Text('Does not have account?'),
+                  //     TextButton(
+                  //       child: const Text(
+                  //         'Sign Up',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //       onPressed: () {
+                  //         //signup screen
+                  //       },
+                  //     )
+                  //   ],
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

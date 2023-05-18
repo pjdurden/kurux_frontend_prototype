@@ -1,16 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:kurux_frontend_prototype/Other_Pages/cancel_order_page.dart';
 import 'package:kurux_frontend_prototype/Other_Pages/wallet_page.dart';
-import 'package:kurux_frontend_prototype/bottomNavigator.dart';
+import 'package:kurux_frontend_prototype/Response_Classes/orders.dart';
 
-import 'Other_Pages/company_details.dart';
-import 'Portfolio_page.dart';
-import 'Response_Classes/get_company_list.dart';
-import 'orders_page.dart';
+import 'Other_Pages/order_history_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.user_id});
+class Orders_Page extends StatefulWidget {
+  const Orders_Page({super.key, required this.user_id});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,36 +19,53 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
   final String user_id;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Orders_Page> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  late Future<CompanyList> companylist;
+class _MyHomePageState extends State<Orders_Page> {
+  late Future<OrderList> orderList;
+
   int _selectedIndex = 0;
+
+  void refreshBuy() {
+    // reload
+    setState(() {
+      orderList = tryBuyOrderList(widget.user_id);
+    });
+  }
+
+  void refreshSell() {
+    // reload
+    setState(() {
+      orderList = trySellOrderList(widget.user_id);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    companylist = fetchCompanyList();
+    orderList = tryBuyOrderList(widget.user_id);
   }
 
+  final List<String> order_names = ["Buy", "Sell"];
+
   void onTabTapped(int index) {
-    if (index == 1) {
+    if (index == 0) {
+      _selectedIndex = 0;
+      refreshBuy();
+    } else if (index == 1) {
+      _selectedIndex = 1;
+      refreshSell();
+    } else {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Portfolio_Page(user_id: widget.user_id),
-        ),
-      );
-    } else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Orders_Page(user_id: widget.user_id),
+          builder: (context) => order_history_page(
+            user_id: widget.user_id,
+          ),
         ),
       );
     }
@@ -68,92 +83,78 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
+        // Here we take the value from the Portfolio_Page object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(order_names[_selectedIndex] + ' Orders'),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        items: bottomBar(),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.my_library_books_outlined),
+            label: 'Buy Orders',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sell_rounded),
+            label: 'Sell Orders',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history_edu),
+            label: 'Order History',
+          )
+        ],
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         onTap: onTabTapped,
       ),
-      body: FutureBuilder<CompanyList>(
-        future: companylist,
+
+      body: FutureBuilder<OrderList>(
+        future: orderList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data!.companylist.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => company_details_page(
-                              company_id: snapshot.data!.companylist
-                                  .elementAt(index)
-                                  .Ticker_Symbol,
-                              user_id: widget.user_id),
-                        ),
-                      );
-                    },
-                    leading: CircleAvatar(
-                      child: Text(snapshot.data!.companylist
-                          .elementAt(index)
-                          .Ticker_Symbol),
-                    ),
-                    subtitle: Text(snapshot.data!.companylist
-                        .elementAt(index)
-                        .Product_Service_Desc),
-                    trailing: Text(
-                        'IPEO Price: ${snapshot.data!.companylist.elementAt(index).IPEO_Price}'),
-                    title: Text(
-                        '${snapshot.data!.companylist.elementAt(index).Company_Name} (${snapshot.data!.companylist.elementAt(index).Ticker_Symbol})'),
-                  );
-                });
-
-            // padding: const EdgeInsets.all(8),
-            // children: <Widget>[
-            //   Container(
-            //     height: 50,
-            //     color: Color.fromARGB(255, 0, 0, 0),
-            //     child: Center(
-            //         child: Text('Company - ' +
-            //             snapshot.data!.companylist.first.Company_Name)),
-            //   ),
-            //   Container(
-            //     height: 50,
-            //     color: Color.fromARGB(255, 65, 63, 63),
-            //     child: Center(
-            //         child: Text(
-            //             'Owner -' + snapshot.data!.companylist.first.Owner)),
-            //   ),
-            //   Container(
-            //     height: 50,
-            //     color: Color.fromARGB(255, 0, 0, 0),
-            //     child: Center(
-            //         child: Text('Ticker_Symbol -' +
-            //             snapshot.data!.companylist.first.Ticker_Symbol)),
-            //   ),
-            //   Container(
-            //     height: 50,
-            //     color: Color.fromARGB(255, 65, 63, 63),
-            //     child: Center(
-            //         child: Text('Company Website -' +
-            //             snapshot.data!.companylist.first.Company_Website)),
-            //   ),
-            //   Container(
-            //     height: 50,
-            //     color: Color.fromARGB(255, 0, 0, 0),
-            //     child: Center(
-            //         child: Text('Product Service Description -' +
-            //             snapshot
-            //                 .data!.companylist.first.Product_Service_Desc)),
-
-            // Text(snapshot.data!.companylist.first.Company_Name);
+            if (snapshot.data!.list_recieved) {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: snapshot.data!.orders_list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      onTap: () {
+                        //go to cancel buy order or sell order
+                        String order_Type = 'Buy';
+                        if (_selectedIndex == 1) {
+                          order_Type = 'Sell';
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => cancel_order_page(
+                              order_details:
+                                  snapshot.data!.orders_list.elementAt(index),
+                              order_type: order_Type,
+                              user_id: widget.user_id,
+                            ),
+                          ),
+                        );
+                      },
+                      leading: CircleAvatar(
+                        child: Text(snapshot.data!.orders_list
+                            .elementAt(index)
+                            .ticker_symbol),
+                      ),
+                      subtitle: Text(
+                          'Units : ${snapshot.data!.orders_list.elementAt(index).Units}'),
+                      trailing: const Text('Click here to Cancel Order'),
+                      title: Text(
+                          '${snapshot.data!.orders_list.elementAt(index).ticker_symbol} Price per Unit : (${snapshot.data!.orders_list.elementAt(index).price_per_unit.toString()})'),
+                    );
+                  });
+            }
+            return const ListTile(
+              leading: CircleAvatar(
+                child: Text('NULL'),
+              ),
+              title: Text("No Orders Present Currently"),
+            );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
@@ -162,6 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
           return const Center(child: CircularProgressIndicator());
         },
       ),
+
+      //Sell Orders
 
       // itemCount > 0
       //     ? ListView.builder(
@@ -211,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(widget.user_id),
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.home,
               ),
               title: const Text('Wallet'),
@@ -227,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.logout,
               ),
               title: const Text('Logout'),

@@ -30,6 +30,18 @@ String Sell_Equity = Base_URI + '/equity/sell_equity';
 
 String User_Portfolio = Base_URI + '/user/portfolio';
 
-String PinChange_Link = Base_URI + '/auth/change_pin'
+String Buy_Order_List = Base_URI + '/user/buy_orders';
 
-String PassChange_Link = Base_URI + ' /auth/change_pass'
+String Sell_Order_List = Base_URI + '/user/sell_orders';
+
+String Cancel_Buy_Order = Base_URI + '/cancel/buy_order';
+
+String Cancel_Sell_Order = Base_URI + '/cancel/sell_order';
+
+String Order_History_List = Base_URI + '/user/order_history';
+
+String Tran_History_List = Base_URI + '/user/tran_history';
+
+String PinChange_Link = Base_URI + '/auth/change_pin';
+
+String PassChange_Link = Base_URI + ' /auth/change_pass';

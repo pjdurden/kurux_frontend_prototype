@@ -3,6 +3,7 @@ import 'package:kurux_frontend_prototype/Other_Pages/wallet_page.dart';
 import 'package:kurux_frontend_prototype/bottomNavigator.dart';
 import 'package:kurux_frontend_prototype/home_page.dart';
 import 'package:kurux_frontend_prototype/login_page.dart';
+import 'package:kurux_frontend_prototype/orders_page.dart';
 
 import 'Other_Pages/company_details.dart';
 import 'Other_Pages/sell_page.dart';
@@ -47,6 +48,13 @@ class _MyHomePageState extends State<Portfolio_Page> {
               title: 'KuruX Funding Portal', user_id: widget.user_id),
         ),
       );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Orders_Page(user_id: widget.user_id),
+        ),
+      );
     }
   }
 
@@ -77,32 +85,45 @@ class _MyHomePageState extends State<Portfolio_Page> {
         future: companylist,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data!.companylist.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => sell_order_page(
-                              company_id:
-                                  snapshot.data!.companylist.elementAt(index),
-                              user_id: widget.user_id),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.arrow_forward_outlined,
-                    ),
-                    subtitle: Text('Units : ' +
-                        snapshot.data!.companylist.elementAt(index).Units),
-                    trailing: Text('Click here to Sell'),
-                    title: Text(
-                        '${snapshot.data!.companylist.elementAt(index).Company_Name} (${snapshot.data!.companylist.elementAt(index).Ticker_Symbol})'),
-                  );
-                });
+            if (snapshot.data!.portfolio_recieved) {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: snapshot.data!.companylist.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => sell_order_page(
+                                company_id:
+                                    snapshot.data!.companylist.elementAt(index),
+                                user_id: widget.user_id),
+                          ),
+                        );
+                      },
+                      leading: CircleAvatar(
+                        child: Text(snapshot.data!.companylist
+                            .elementAt(index)
+                            .Ticker_Symbol),
+                      ),
+                      subtitle: Text('Units : ' +
+                          snapshot.data!.companylist.elementAt(index).Units),
+                      trailing: Text('Click here to Sell'),
+                      title: Text(
+                          '${snapshot.data!.companylist.elementAt(index).Company_Name} (${snapshot.data!.companylist.elementAt(index).Ticker_Symbol})'),
+                    );
+                  });
+            }
+            return ListTile(
+              onTap: () {
+                //go to cancel buy order or sell order
+              },
+              leading: Icon(
+                Icons.arrow_forward_outlined,
+              ),
+              title: Text("No Equity Units currently present in portfolio"),
+            );
 
             // padding: const EdgeInsets.all(8),
             // children: <Widget>[
@@ -148,7 +169,7 @@ class _MyHomePageState extends State<Portfolio_Page> {
           }
 
           // By default, show a loading spinner.
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
 
