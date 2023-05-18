@@ -29,3 +29,7 @@ String Buy_Equity = Base_URI + '/equity/buy_equity';
 String Sell_Equity = Base_URI + '/equity/sell_equity';
 
 String User_Portfolio = Base_URI + '/user/portfolio';
+
+String PinChange_Link = Base_URI + '/auth/change_pin'
+
+String PassChange_Link = Base_URI + ' /auth/change_pass'
