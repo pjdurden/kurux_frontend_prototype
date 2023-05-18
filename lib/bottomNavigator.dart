@@ -1,24 +1,25 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'home_page.dart';
 
 List<BottomNavigationBarItem> bottomBar() {
   List<BottomNavigationBarItem> temp = <BottomNavigationBarItem>[];
 
-  temp.add(BottomNavigationBarItem(
+  temp.add(const BottomNavigationBarItem(
     icon: Icon(Icons.account_balance_outlined),
     label: 'Companies',
   ));
 
-  temp.add(BottomNavigationBarItem(
+  temp.add(const BottomNavigationBarItem(
     icon: Icon(Icons.checklist_outlined),
     label: 'My Portfolio',
   ));
 
-  temp.add(BottomNavigationBarItem(
+  temp.add(const BottomNavigationBarItem(
     icon: Icon(Icons.account_balance_wallet_outlined),
-    label: 'Wallet',
+    label: 'My Orders',
   ));
 
   return temp;

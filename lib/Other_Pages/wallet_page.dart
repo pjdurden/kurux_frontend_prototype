@@ -5,6 +5,7 @@ import 'package:kurux_frontend_prototype/Response_Classes/get_company_list.dart'
 import 'package:kurux_frontend_prototype/home_page.dart';
 
 import '../Response_Classes/avgbuysellprice.dart';
+import '../Response_Classes/tran_history.dart';
 import '../Response_Classes/wallet.dart';
 import '../bottomNavigator.dart';
 
@@ -20,6 +21,9 @@ class wallet_page extends StatefulWidget {
 class _MyStatefulWidgetState extends State<wallet_page> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+
+  late Future<TranHistoryList> tran_list;
+
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
@@ -45,6 +49,7 @@ class _MyStatefulWidgetState extends State<wallet_page> {
   @override
   void initState() {
     super.initState();
+    tran_list = fetch_Order_History(widget.user_id);
   }
 
   @override
@@ -344,7 +349,54 @@ class _MyStatefulWidgetState extends State<wallet_page> {
                             }
                           })),
                 ],
-              ))
+              )),
+          const Center(
+              child: Text(
+            'Transaction History',
+            textScaleFactor: 2,
+          )),
+          SingleChildScrollView(
+              child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: 5.0,
+              maxHeight: 500.0,
+            ),
+            child: FutureBuilder<TranHistoryList>(
+                future: tran_list,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (!snapshot.data!.list_Empty) {
+                      return ListView.builder(
+                          padding: const EdgeInsets.all(8),
+                          itemCount: snapshot.data!.historyList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              trailing: Text(snapshot.data!.historyList
+                                  .elementAt(index)
+                                  .Type),
+                              subtitle: Text(
+                                  'Amount : ${snapshot.data!.historyList.elementAt(index).Amount}'),
+                              title: Text(snapshot.data!.historyList
+                                  .elementAt(index)
+                                  .Message),
+                            );
+                          });
+                    } else {
+                      return const ListTile(
+                        leading: CircleAvatar(
+                          child: Text('NULL'),
+                        ),
+                        title: Text("No Orders Executed Till Now"),
+                      );
+                    }
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+
+                  // By default, show a loading spinner.
+                  return const Center(child: CircularProgressIndicator());
+                }),
+          )),
         ])));
   }
 }
