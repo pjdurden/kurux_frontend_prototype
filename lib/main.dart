@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kurux_frontend_prototype/login_page.dart';
 
+import 'Other_Pages/initialLoadingScreen.dart';
 import 'home_page.dart';
 
 void main() {
@@ -16,8 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'KuruX',
       theme: ThemeData.dark(),
-      // initialRoute: '/login',
+      initialRoute: '/terms_cond',
       routes: <String, WidgetBuilder>{
+        '/terms_cond': (context) => const initialLoadingScreen(),
         '/login': (context) => const LoginPage(),
         '/home': (context) =>
             const MyHomePage(title: 'KuruX Funding Portal', user_id: 'KuruX')
