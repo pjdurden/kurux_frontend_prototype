@@ -181,7 +181,7 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    change_pass_pin(Type: 'Password'),
+                                    const change_pass_pin(Type: 'Password'),
                               ),
                             );
                           },
@@ -197,7 +197,7 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    change_pass_pin(Type: 'PIN'),
+                                    const change_pass_pin(Type: 'PIN'),
                               ),
                             );
                           },
@@ -221,11 +221,15 @@ class _MyStatefulWidgetState extends State<LoginPage> {
                   //     )
                   //   ],
                   // ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
-                          'Forgot Password? Contact prajjwal@kurux.in or anubhav@kurux.in')
+                      const ListTile(
+                        title: Center(child: Text('Forgot Password?')),
+                        subtitle: Center(
+                            child: Text(
+                                'Contact prajjwal@kurux.in or anubhav@kurux.in')),
+                      )
                     ],
                   ),
                 ],

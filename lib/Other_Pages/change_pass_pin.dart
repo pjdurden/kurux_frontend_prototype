@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kurux_frontend_prototype/Response_Classes/auth_apis.dart';
 import 'package:kurux_frontend_prototype/Response_Classes/buy_equity_post.dart';
+import 'package:kurux_frontend_prototype/Response_Classes/change_pass.dart';
+import 'package:kurux_frontend_prototype/Response_Classes/change_pin.dart';
 import 'package:kurux_frontend_prototype/Response_Classes/get_company_list.dart';
 import 'package:kurux_frontend_prototype/home_page.dart';
+import 'package:kurux_frontend_prototype/login_page.dart';
 
 import '../Response_Classes/avgbuysellprice.dart';
 import '../Response_Classes/tran_history.dart';
@@ -142,6 +145,86 @@ class _MyStatefulWidgetState extends State<change_pass_pin> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // userBalance = fetch_Balance();
+
+                          if (widget.Type == 'Password') {
+                            Future<ChangePass> pass_response = tryChangePass(
+                                user_id.text,
+                                oldPassController.text,
+                                newPassController.text);
+
+                            pass_response.then((data) {
+                              if (data.Pass) {
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   const SnackBar(content: Text('Auth Success')),
+                                // );
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(widget.Type +
+                                          ' Updated Successfully')),
+                                );
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+
+                                // Navigator.pushNamed(
+                                //   context, '/home',
+                                //   arguments: String( nameController.text )
+                                // );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(data.PassResponse)),
+                                );
+                              }
+                            }, onError: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Server Error')),
+                              );
+                            });
+                          } else {
+                            Future<ChangePin> pass_response = tryChangePin(
+                                user_id.text,
+                                oldPassController.text,
+                                newPassController.text);
+
+                            pass_response.then((data) {
+                              if (data.Pin) {
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   const SnackBar(content: Text('Auth Success')),
+                                // );
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(widget.Type +
+                                          ' Updated Successfully')),
+                                );
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+
+                                // Navigator.pushNamed(
+                                //   context, '/home',
+                                //   arguments: String( nameController.text )
+                                // );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(data.PinResponse)),
+                                );
+                              }
+                            }, onError: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Server Error')),
+                              );
+                            });
+                          }
                         }
                       })),
             ],

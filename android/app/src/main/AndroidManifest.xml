@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kurux_frontend_prototype">
    <application
-        android:label="kurux_frontend_prototype"
+        android:label="KuruX Prototype"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

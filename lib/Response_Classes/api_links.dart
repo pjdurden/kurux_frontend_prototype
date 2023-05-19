@@ -1,6 +1,10 @@
-String Base_URI = 'http://127.0.0.1:5000';
+// String Base_URI = 'http://127.0.0.1:5000';
 
-// on render base uri - https://kuruxtest.onrender.com
+// vercel base uri
+String Base_URI = 'https://kurux-backend-prototype.vercel.app';
+
+// // on render base uri -
+// String Base_URI = 'https://kuruxtest.onrender.com';
 
 // String GET_COMPANY_LIST =
 //     'https://kuruxtest.onrender.com/crud/get_company_list';
@@ -41,3 +45,9 @@ String Cancel_Sell_Order = Base_URI + '/cancel/sell_order';
 String Order_History_List = Base_URI + '/user/order_history';
 
 String Tran_History_List = Base_URI + '/user/tran_history';
+
+String PinChange_Link = Base_URI + '/auth/change_pin';
+
+String PassChange_Link = Base_URI + '/auth/change_pass';
+
+String Status = Base_URI + '/status';
