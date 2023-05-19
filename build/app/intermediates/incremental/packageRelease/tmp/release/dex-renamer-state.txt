@@ -1,0 +1,4 @@
+#Fri May 19 23:43:11 IST 2023
+base.0=/home/pjdurden/KuruX/kurux_frontend_prototype/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
