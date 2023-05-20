@@ -99,6 +99,8 @@ class _MyStatefulWidgetState extends State<initialLoadingScreen> {
                   ),
                 ]))),
 
+        SizedBox(height: 30),
+
         ListTile(
           title: const Center(
               child: Text(
