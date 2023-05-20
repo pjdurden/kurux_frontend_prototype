@@ -39,10 +39,19 @@ class _MyStatefulWidgetState extends State<change_pass_pin> {
   int units = 0;
   int price_per_unit = 0;
   int amount = 0;
+  TextInputType? keyboard;
+
+  TextInputType keyboardType() {
+    if (widget.Type == 'Password') {
+      return TextInputType.text;
+    }
+    return TextInputType.number;
+  }
 
   @override
   void initState() {
     super.initState();
+    keyboard = keyboardType();
   }
 
   @override
@@ -104,7 +113,7 @@ class _MyStatefulWidgetState extends State<change_pass_pin> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: oldPassController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: keyboard,
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -123,7 +132,7 @@ class _MyStatefulWidgetState extends State<change_pass_pin> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: newPassController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: keyboard,
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
