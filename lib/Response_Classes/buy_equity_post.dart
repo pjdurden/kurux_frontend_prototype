@@ -13,12 +13,12 @@ class buySellEquityResponse {
     required this.boughtR,
   });
 
-  factory buySellEquityResponse.fromJson(dynamic json) {
+  factory buySellEquityResponse.fromJson(Map<String,dynamic> json) {
     bool boughtStatus = false;
     String boughtResponse;
-    if (json.toString() == 'Stock Transfer Done') {
+    if (json.containsKey('msg')) {
       boughtStatus = true;
-      boughtResponse = 'Stock Transfer Done';
+      boughtResponse = json['msg'];
     } else {
       boughtResponse = json['error'];
     }
