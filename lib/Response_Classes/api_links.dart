@@ -1,7 +1,7 @@
-String Base_URI = 'http://127.0.0.1:5000';
+// String Base_URI = 'http://127.0.0.1:5000';
 
 // vercel base uri
-// String Base_URI = 'https://kurux-backend-prototype.vercel.app';
+String Base_URI = 'https://kurux-backend-prototype.vercel.app';
 
 // // on render base uri -
 // String Base_URI = 'https://kuruxtest.onrender.com';
